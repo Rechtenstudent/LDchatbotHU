@@ -1,35 +1,142 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OER-bot</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* === DESKTOP VERSION === */
+        #desktop-wrapper {
+            display: block;
             background-image: url('https://media.licdn.com/dms/image/v2/C4E1BAQGvpyQZAqX3BA/company-background_10000/company-background_10000/0/1606907931603/instituut_voor_recht_hu_cover?e=2147483647&v=beta&t=xOmKRIUORo3FjY56cFxCkNEz0au2wXYjHWFC7eE6yDc');
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: cover;
-            font-family: Arial;
             max-width: 600px;
             margin: 20px auto;
+            padding: 10px;
             color: #000;
         }
-        #chatbox {
+
+        #desktop-wrapper #chatbox {
             border: 1px solid #ccc;
             padding: 10px;
             height: 300px;
             overflow-y: scroll;
             background-color: rgba(255, 255, 255, 0.8);
         }
-        .message { margin: 5px 0; }
-        .user { color: blue; }
-        .bot { color: red; }
+
+        #desktop-wrapper input[type="text"],
+        #desktop-wrapper button {
+            margin-top: 10px;
+        }
+
+        #desktop-wrapper .message { margin: 5px 0; }
+        #desktop-wrapper .user { color: blue; }
+        #desktop-wrapper .bot { color: red; }
+
+        /* === MOBILE VERSION === */
+        #mobile-wrapper {
+            display: none;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+
+        #mobile-wrapper .container {
+            max-width: 100%;
+            margin: auto;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        #mobile-wrapper #chatbox {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 250px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+
+        #mobile-wrapper .message { margin: 5px 0; font-size: 1rem; }
+        #mobile-wrapper .user { color: blue; }
+        #mobile-wrapper .bot { color: red; }
+
+        #mobile-wrapper input,
+        #mobile-wrapper button {
+            width: 100%;
+            font-size: 1rem;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #mobile-wrapper button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        #mobile-wrapper button:hover {
+            background-color: #0056b3;
+        }
+
+        a.logo-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+        }
+
+        a.logo-link img {
+            width: 100px;
+            height: 100px;
+        }
+
+        /* === Responsive Switch === */
+        @media (max-width: 600px) {
+            #desktop-wrapper {
+                display: none;
+            }
+            #mobile-wrapper {
+                display: block;
+            }
+            a.logo-link img {
+                width: 60px;
+                height: 60px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h2>OER-bot&#129302;</h2>
-    <div id="chatbox"></div>
-    <input type="text" id="input" placeholder="Typ hier je bericht..." />
-    <button onclick="sendMessage()">Verzend</button>
+    <!-- Logo -->
+    <a href="https://husite.nl/hu-begeleidt/optimaal-studeren/examencommissie/" class="logo-link">
+        <img src="https://www.utrechtdebatingsociety.nl/wp-content/uploads/2016/07/hu-og.png" alt="HU Logo">
+    </a>
+
+    <!-- DESKTOP VERSION -->
+    <div id="desktop-wrapper">
+        <h2>OER-bot 🧑‍💼</h2>
+        <div id="chatbox-desktop"></div>
+        <input type="text" id="input-desktop" placeholder="Typ hier je bericht..." />
+        <button onclick="sendMessage('desktop')">Verzend</button>
+    </div>
+
+    <!-- MOBILE VERSION -->
+    <div id="mobile-wrapper">
+        <div class="container">
+            <h2>OER-bot 🧑‍💼</h2>
+            <div id="chatbox-mobile"></div>
+            <input type="text" id="input-mobile" placeholder="Typ hier je bericht..." />
+            <button onclick="sendMessage('mobile')">Verzend</button>
+        </div>
+    </div>
 
     <script>
         function getBotResponse(userInput) {
@@ -37,11 +144,11 @@
             if (input.includes("hallo")) {
                 return "Hey";
             } else if (input.includes("ik heb een vraag")) {
-                return "natuurlijk, hoe kan ik helpen?";
+                return "Natuurlijk, hoe kan ik helpen?";
             } else if (input.includes("wanneer kom ik in aanmerking?")) {
-                return "je kunt een extra kans aanvragen bij individuele overmacht, zoals: ziekte, fysieke of psychische beperking, zwangerschap, bijzondere familieomstandigheden of persoonlijke omstandigheden";
+                return "Je kunt een extra kans aanvragen bij individuele overmacht, zoals: ziekte, fysieke of psychische beperking, zwangerschap, bijzondere familieomstandigheden of persoonlijke omstandigheden.";
             } else if (input.includes("hoe doe ik dit?")) {
-                return "Schrijf een verzoek aan de examencommissie waarin je jouw situatie uitlegt. Leg uit waarom je niet kon deelnemen aan de toets. Stuur bewijsstukken mee (bijvoorbeeld een medische verklaring of een schriftelijke toelichting van je studieadviseur). Dien je aanvraag direct in na het falen van je herkansing. Twijfel je over welke bewijzen nodig zijn? Vraag dan hulp aan je studieadviseur";
+                return "Schrijf een verzoek aan de examencommissie waarin je jouw situatie uitlegt. Leg uit waarom je niet kon deelnemen aan de toets. Stuur bewijsstukken mee (bijvoorbeeld een medische verklaring of een schriftelijke toelichting van je studieadviseur). Dien je aanvraag direct in na het falen van je herkansing. Twijfel je over welke bewijzen nodig zijn? Vraag dan hulp aan je studieadviseur.";
             } else if (input.includes("doei")) {
                 return "Tot ziens!";
             } else {
@@ -49,12 +156,12 @@
             }
         }
 
-        function sendMessage() {
-            const input = document.getElementById("input");
-            const message = input.value;
+        function sendMessage(mode) {
+            const input = document.getElementById(`input-${mode}`);
+            const chatbox = document.getElementById(`chatbox-${mode}`);
+            const message = input.value.trim();
             if (!message) return;
 
-            const chatbox = document.getElementById("chatbox");
             chatbox.innerHTML += `<div class="message user">You: ${message}</div>`;
             input.value = "";
 
@@ -63,9 +170,5 @@
             chatbox.scrollTop = chatbox.scrollHeight;
         }
     </script>
-
-    <a href="https://husite.nl/hu-begeleidt/optimaal-studeren/examencommissie/" style="position: fixed; top: 0; left: 0; z-index: 1000;">
-        <img src="https://www.utrechtdebatingsociety.nl/wp-content/uploads/2016/07/hu-og.png" alt="HU Logo" style="width:100px;height:100px;">
-    </a>
 </body>
 </html>
