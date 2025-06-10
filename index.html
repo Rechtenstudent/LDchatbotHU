@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OER-bot</title>
     <style>
         body {
@@ -8,28 +9,133 @@
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: cover;
-            font-family: Arial;
-            max-width: 600px;
+            font-family: Arial, sans-serif;
             margin: 20px auto;
+            padding: 10px;
             color: #000;
+            max-width: 600px;
         }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
         #chatbox {
             border: 1px solid #ccc;
             padding: 10px;
             height: 300px;
             overflow-y: scroll;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: #fff;
+            margin-bottom: 10px;
+            border-radius: 5px;
         }
-        .message { margin: 5px 0; }
-        .user { color: blue; }
-        .bot { color: red; }
+
+        .message {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+
+        .user {
+            color: blue;
+        }
+
+        .bot {
+            color: red;
+        }
+
+        #input,
+        button {
+            font-size: 1rem;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #input {
+            width: calc(100% - 110px);
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            width: 90px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        a.logo-link {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+        }
+
+        a.logo-link img {
+            width: 100px;
+            height: 100px;
+        }
+
+        /* --- Mobile specific styles --- */
+        @media (max-width: 600px) {
+            body {
+                margin: 0;
+                max-width: 100%;
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 0;
+                padding: 10px;
+            }
+
+            #chatbox {
+                height: 250px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            #input, button {
+                width: 100%;
+                margin-right: 0;
+            }
+
+            a.logo-link img {
+                width: 60px;
+                height: 60px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h2>OER-bot&#129302;</h2>
-    <div id="chatbox"></div>
-    <input type="text" id="input" placeholder="Typ hier je bericht..." />
-    <button onclick="sendMessage()">Verzend</button>
+    <a href="https://husite.nl/hu-begeleidt/optimaal-studeren/examencommissie/" class="logo-link">
+        <img src="https://www.utrechtdebatingsociety.nl/wp-content/uploads/2016/07/hu-og.png" alt="HU Logo">
+    </a>
+
+    <div class="container">
+        <h2>OER-bot 🧑‍💼</h2>
+        <div id="chatbox"></div>
+        <div class="input-group">
+            <input type="text" id="input" placeholder="Typ hier je bericht..." />
+            <button onclick="sendMessage()">Verzend</button>
+        </div>
+    </div>
 
     <script>
         function getBotResponse(userInput) {
@@ -37,11 +143,11 @@
             if (input.includes("hallo")) {
                 return "Hey";
             } else if (input.includes("ik heb een vraag")) {
-                return "natuurlijk, hoe kan ik helpen?";
+                return "Natuurlijk, hoe kan ik helpen?";
             } else if (input.includes("wanneer kom ik in aanmerking?")) {
-                return "je kunt een extra kans aanvragen bij individuele overmacht, zoals: ziekte, fysieke of psychische beperking, zwangerschap, bijzondere familieomstandigheden of persoonlijke omstandigheden";
+                return "Je kunt een extra kans aanvragen bij individuele overmacht, zoals: ziekte, fysieke of psychische beperking, zwangerschap, bijzondere familieomstandigheden of persoonlijke omstandigheden.";
             } else if (input.includes("hoe doe ik dit?")) {
-                return "Schrijf een verzoek aan de examencommissie waarin je jouw situatie uitlegt. Leg uit waarom je niet kon deelnemen aan de toets. Stuur bewijsstukken mee (bijvoorbeeld een medische verklaring of een schriftelijke toelichting van je studieadviseur). Dien je aanvraag direct in na het falen van je herkansing. Twijfel je over welke bewijzen nodig zijn? Vraag dan hulp aan je studieadviseur";
+                return "Schrijf een verzoek aan de examencommissie waarin je jouw situatie uitlegt. Leg uit waarom je niet kon deelnemen aan de toets. Stuur bewijsstukken mee (bijvoorbeeld een medische verklaring of een schriftelijke toelichting van je studieadviseur). Dien je aanvraag direct in na het falen van je herkansing. Twijfel je over welke bewijzen nodig zijn? Vraag dan hulp aan je studieadviseur.";
             } else if (input.includes("doei")) {
                 return "Tot ziens!";
             } else {
@@ -51,7 +157,7 @@
 
         function sendMessage() {
             const input = document.getElementById("input");
-            const message = input.value;
+            const message = input.value.trim();
             if (!message) return;
 
             const chatbox = document.getElementById("chatbox");
@@ -63,9 +169,5 @@
             chatbox.scrollTop = chatbox.scrollHeight;
         }
     </script>
-
-    <a href="https://husite.nl/hu-begeleidt/optimaal-studeren/examencommissie/" style="position: fixed; top: 0; left: 0; z-index: 1000;">
-        <img src="https://www.utrechtdebatingsociety.nl/wp-content/uploads/2016/07/hu-og.png" alt="HU Logo" style="width:100px;height:100px;">
-    </a>
 </body>
 </html>
