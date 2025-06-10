@@ -1,141 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OER-bot</title>
     <style>
         body {
+            background-color: #fff;
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
-        }
-
-        /* === DESKTOP VERSION === */
-        #desktop-wrapper {
-            display: block;
-            background-image: url('https://media.licdn.com/dms/image/v2/C4E1BAQGvpyQZAqX3BA/company-background_10000/company-background_10000/0/1606907931603/instituut_voor_recht_hu_cover?e=2147483647&v=beta&t=xOmKRIUORo3FjY56cFxCkNEz0au2wXYjHWFC7eE6yDc');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 10px;
+            padding: 1rem;
             color: #000;
         }
 
-        #desktop-wrapper #chatbox {
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        header h2 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        #logo {
+            width: 60px;
+            height: auto;
+        }
+
+        #chatbox {
             border: 1px solid #ccc;
-            padding: 10px;
+            padding: 1rem;
             height: 300px;
-            overflow-y: scroll;
-            background-color: rgba(255, 255, 255, 0.8);
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            margin-bottom: 1rem;
+            border-radius: 8px;
         }
 
-        #desktop-wrapper input[type="text"],
-        #desktop-wrapper button {
-            margin-top: 10px;
+        .message {
+            margin: 0.5rem 0;
         }
 
-        #desktop-wrapper .message { margin: 5px 0; }
-        #desktop-wrapper .user { color: blue; }
-        #desktop-wrapper .bot { color: red; }
-
-        /* === MOBILE VERSION === */
-        #mobile-wrapper {
-            display: none;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.85);
+        .user {
+            color: blue;
         }
 
-        #mobile-wrapper .container {
-            max-width: 100%;
-            margin: auto;
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 10px;
+        .bot {
+            color: red;
         }
 
-        #mobile-wrapper #chatbox {
+        #inputArea {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 0.5rem;
             border: 1px solid #ccc;
-            padding: 10px;
-            height: 250px;
-            overflow-y: scroll;
-            margin-bottom: 10px;
+            border-radius: 4px;
         }
 
-        #mobile-wrapper .message { margin: 5px 0; font-size: 1rem; }
-        #mobile-wrapper .user { color: blue; }
-        #mobile-wrapper .bot { color: red; }
-
-        #mobile-wrapper input,
-        #mobile-wrapper button {
-            width: 100%;
-            font-size: 1rem;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        #mobile-wrapper button {
-            background-color: #007bff;
-            color: white;
+        button {
+            padding: 0.5rem 1rem;
             border: none;
+            background-color: #0066cc;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
-        #mobile-wrapper button:hover {
-            background-color: #0056b3;
+        button:hover {
+            background-color: #004a99;
         }
 
-        a.logo-link {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            z-index: 1000;
-        }
-
-        a.logo-link img {
-            width: 100px;
-            height: 100px;
-        }
-
-        /* === Responsive Switch === */
         @media (max-width: 600px) {
-            #desktop-wrapper {
-                display: none;
+            #chatbox {
+                height: 250px;
             }
-            #mobile-wrapper {
-                display: block;
+
+            header h2 {
+                font-size: 1.2rem;
             }
-            a.logo-link img {
-                width: 60px;
-                height: 60px;
+
+            #logo {
+                width: 50px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Logo -->
-    <a href="https://husite.nl/hu-begeleidt/optimaal-studeren/examencommissie/" class="logo-link">
-        <img src="https://www.utrechtdebatingsociety.nl/wp-content/uploads/2016/07/hu-og.png" alt="HU Logo">
-    </a>
 
-    <!-- DESKTOP VERSION -->
-    <div id="desktop-wrapper">
-        <h2>OER-bot 🧑‍💼</h2>
-        <div id="chatbox-desktop"></div>
-        <input type="text" id="input-desktop" placeholder="Typ hier je bericht..." />
-        <button onclick="sendMessage('desktop')">Verzend</button>
-    </div>
+    <header>
+        <h2>OER-bot 🤖</h2>
+        <a href="https://husite.nl/hu-begeleidt/optimaal-studeren/examencommissie/">
+            <img src="https://www.utrechtdebatingsociety.nl/wp-content/uploads/2016/07/hu-og.png" alt="HU Logo" id="logo">
+        </a>
+    </header>
 
-    <!-- MOBILE VERSION -->
-    <div id="mobile-wrapper">
-        <div class="container">
-            <h2>OER-bot 🧑‍💼</h2>
-            <div id="chatbox-mobile"></div>
-            <input type="text" id="input-mobile" placeholder="Typ hier je bericht..." />
-            <button onclick="sendMessage('mobile')">Verzend</button>
-        </div>
+    <div id="chatbox"></div>
+
+    <div id="inputArea">
+        <input type="text" id="input" placeholder="Typ hier je bericht..." />
+        <button onclick="sendMessage()">Verzend</button>
     </div>
 
     <script>
@@ -156,13 +126,13 @@
             }
         }
 
-        function sendMessage(mode) {
-            const input = document.getElementById(`input-${mode}`);
-            const chatbox = document.getElementById(`chatbox-${mode}`);
+        function sendMessage() {
+            const input = document.getElementById("input");
             const message = input.value.trim();
             if (!message) return;
 
-            chatbox.innerHTML += `<div class="message user">You: ${message}</div>`;
+            const chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML += `<div class="message user">Jij: ${message}</div>`;
             input.value = "";
 
             const response = getBotResponse(message);
@@ -170,5 +140,6 @@
             chatbox.scrollTop = chatbox.scrollHeight;
         }
     </script>
+
 </body>
 </html>
